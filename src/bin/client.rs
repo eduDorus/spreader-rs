@@ -4,14 +4,14 @@ pub mod orderbook {
 }
 
 use anyhow::Result;
-use keyrock::setup_tracing_subscriber;
 use orderbook::orderbook_aggregator_client::OrderbookAggregatorClient;
+use spreader_rs::logging;
 use tonic::Request;
 use tracing::info;
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    setup_tracing_subscriber()?;
+    logging::setup_tracing_subscriber()?;
 
     let mut client = OrderbookAggregatorClient::connect("http://[::1]:50051").await?;
 

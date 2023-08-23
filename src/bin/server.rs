@@ -4,9 +4,9 @@ pub mod orderbook {
 }
 
 use anyhow::Result;
-use keyrock::setup_tracing_subscriber;
 use orderbook::orderbook_aggregator_server::{OrderbookAggregator, OrderbookAggregatorServer};
 use orderbook::{Empty, Level, Summary};
+use spreader_rs::logging;
 use tokio::sync::mpsc;
 use tokio_stream::wrappers::ReceiverStream;
 use tonic::transport::Server;
@@ -75,7 +75,7 @@ impl OrderbookAggregator for OrderbookAggregatorService {
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    setup_tracing_subscriber()?;
+    logging::setup_tracing_subscriber()?;
 
     let addr = "[::1]:50051".parse()?;
     let svc_orderbook = OrderbookAggregatorServer::new(OrderbookAggregatorService::default());
